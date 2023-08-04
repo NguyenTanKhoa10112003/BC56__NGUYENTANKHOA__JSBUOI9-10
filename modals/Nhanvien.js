@@ -25,10 +25,9 @@ function Nhanvien() {
       xepLoai = "Nhân viên giỏi";
     } else if (this.chucVu == "Nhân viên" && this.gioLamTrongThang >= 160) {
       xepLoai = "Nhân viên khá";
-    } else {
+    } else if (this.chucVu == "Nhân viên" && this.gioLamTrongThang < 160) {
       xepLoai = "Nhân viên trung bình";
     }
     return xepLoai;
   };
 }
-  

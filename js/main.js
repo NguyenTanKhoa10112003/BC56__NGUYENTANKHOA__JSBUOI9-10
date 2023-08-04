@@ -12,8 +12,8 @@ document.querySelector("#btnThemNV").onclick = function () {
   nhanVienMoi.gioLamTrongThang = document.querySelector("#gioLam").value;
   arrnhanVien.push(nhanVienMoi);
   renderTableNhanVien(arrnhanVien);
+  LuuvaoStorage();
 };
-
 // In ra màn hình danh sách nhân viên
 function renderTableNhanVien(danhSachNhanVien) {
   var outputHTML = "";
@@ -30,13 +30,38 @@ function renderTableNhanVien(danhSachNhanVien) {
     <td>${nhanVien.loaiNhanVien()}</td>
     <td class = "d-flex">
     <button class= "btn btn-danger" onclick = xoaNhanVien('${index}')>Xóa</button>
-    <button class = "btn btn-primary mx-2 data-toggle="modal"
-    data-target="#myModal onclick ="suaNhanVien('${index}')">Sửa</button>
+    <button class = "btn btn-primary mx-2" data-toggle="modal"
+    data-target="#myModal" onclick ="suaNhanVien('${index}')">Sửa</button>
     </td>
     </tr>
     `;
   }
   document.querySelector("#tableDanhSach").innerHTML = outputHTML;
+}
+// Lưu vào Storage
+function LuuvaoStorage() {
+  var chuoiNhanVien = JSON.stringify(arrnhanVien);
+  localStorage.setItem("NhanVien", chuoiNhanVien);
+}
+// Lấy dữ liệu từ Storage ra
+function layDataTuStorage(data) {
+  var layDuLieu = localStorage.getItem(data);
+  if (!layDuLieu) {
+    return [];
+  }
+  var danhSach = JSON.parse(layDuLieu);
+  for (var index = 0; index < layDuLieu.length; index++) {
+    var dataNhanVien = new NhanVien();
+    (danhSach[index].taiKhoan = dataNhanVien.tknv),
+      (danhSach[index].hoTen = dataNhanVien.hoTen),
+      (danhSach[index].email = dataNhanVien.email),
+      (danhSach[index].matKhau = dataNhanVien.matKhau),
+      (danhSach[index].luongCoBan = dataNhanVien.luongCoBan),
+      (danhSach[index].chucVu = dataNhanVien.chucVu),
+      (danhSach[index].gioLamTrongThang = dataNhanVien.gioLamTrongThang),
+      (danhSach[index].datepicker = dataNhanVien.datepicker);
+  }
+  return dataNhanVien;
 }
 // Xóa nhân viên
 function xoaNhanVien(indexDelete) {
